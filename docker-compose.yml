@@ -19,6 +19,7 @@ services:
       - 8080:8080
     depends_on:
       - db
+    command: sh -c "go run internal/migrate/main.go up"
 
 volumes:
   db-data:
