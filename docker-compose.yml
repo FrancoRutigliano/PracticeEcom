@@ -1,12 +1,13 @@
 version: "3"
 services:
   db:
-    image: mysql:8.0.28
+    image: mysql:8.0
+    container_name: mysqlcontainer 
     environment:
-        MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-        MY_SQL_DATABASE: ${MY_SQL_DB}
-        MYSQL_USER: ${MYSQL_USER}
-        MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DB}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     ports:
       - 3306:3306
     volumes:
@@ -14,11 +15,12 @@ services:
   app:
     build: .
     environment:
-      DATABASE_URL: mysql://${MYSQL_USER}:${MYSQL_PASSWORD}@db:3306/${MYSQL_DB}
+      DATABASE_URL: mysql://${MYSQL_USER}:${MYSQL_PASSWORD}@mysqlcontainer:3306/${MYSQL_DB}
     ports:
       - 8080:8080
     depends_on:
       - db
+    command: sh -c "go run internal/migrate/main.go up"
 
 volumes:
   db-data:
