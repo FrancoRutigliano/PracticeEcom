@@ -12,16 +12,16 @@ services:
       - 3306:3306
     volumes:
       - db-data:/var/lib/mysql
-  app:
-    build: .
-    environment:
-      DATABASE_URL: mysql://${MYSQL_USER}:${MYSQL_PASSWORD}@mysqlcontainer:3306/${MYSQL_DB}
-    ports:
-      - 8080:8080
-    depends_on:
-      - db
-    command: sh -c "go run internal/migrate/main.go up"
+  # Comenta o elimina el servicio de la aplicación
+  # app:
+  #   build: .
+  #   environment:
+  #     DATABASE_URL: mysql://${MYSQL_USER}:${MYSQL_PASSWORD}@mysqlcontainer:3306/${MYSQL_DB}
+  #   ports:
+  #     - 8080:8080
+  #   depends_on:
+  #     - db
+  #   command: sh -c "go run internal/migrate/main.go up"
 
 volumes:
   db-data:
-
