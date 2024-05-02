@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"log"
 
+	"github.com/FrancoRutigliano/cmd/api"
 	"github.com/FrancoRutigliano/internal/config"
 	"github.com/FrancoRutigliano/internal/db"
 	"github.com/go-sql-driver/mysql"
@@ -26,6 +27,10 @@ func main() {
 	initStorage(db)
 
 	PORT := ":8080"
+	server := api.NewAPIServer(PORT, db)
+	if err := server.Run(); err != nil {
+		log.Fatal("Error to initialize the server on port: ", PORT)
+	}
 
 }
 
